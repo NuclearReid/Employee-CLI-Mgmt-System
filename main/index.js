@@ -4,6 +4,7 @@ const viewDepartment = require('./view/viewDepartment');
 const viewEmployees = require('./view/viewEmployees');
 const viewRoles = require('./view/viewRoles');
 const addRole = require('./addToTables/addRole');
+const addDepartment = require('./addToTables/addDepartment');
 
 
 const db = mysql.createConnection(
@@ -49,6 +50,9 @@ function init() {
             case 'Add a role':
                 addRole(db, init);
                 break;
+            case 'Add a department':
+                addDepartment(db, init);
+                break;            
             case 'Quit':
                 break;
         }

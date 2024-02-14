@@ -54,6 +54,3 @@ function addRole(db, init){
 
 
 module.exports = addRole;
-// INSERT INTO roles(title, salary)
-// VALUES ('New Role', VARCHAR(30)),
-//        ('000000',    INT);
