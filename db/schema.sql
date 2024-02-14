@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS staffmgmt_db;
 CREATE DATABASE staffmgmt_db;
 
 USE staffmgmt_db;
@@ -25,6 +24,7 @@ CREATE TABLE employees(
     manager_id         INT,
     FOREIGN KEY (role_id)
     REFERENCES roles(id),
+
     FOREIGN KEY (manager_id)
     REFERENCES employees(id)
 );
