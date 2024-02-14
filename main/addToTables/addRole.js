@@ -1,13 +1,16 @@
 const inquirer = require('inquirer');
 
 function addRole(db, init){
-    db.query('SELECT name FROM departments', (err, results) =>{
+    db.query('SELECT id, name FROM departments', (err, results) =>{
         if(err){
             console.error('Could not get the department names');
             init();
             return;
         }
-        const departmentNames = results.map(result => result.name);
+        const departmentChoices = results.map(result => ({
+            name: result.name,
+            value: result.id
+        }));
         
         const addRoleQuestions = [
         {
@@ -16,16 +19,32 @@ function addRole(db, init){
             name: 'title'
         },
         {
+            type:'input',
+            message: 'What is the salary of the new Role?',
+            name: 'salary'
+        },
+        {
             type:'list',
-            name: 'departmentNames',
+            name: 'departmentId',
             message: 'Select one of the departments',
-            choices: departmentNames
+            choices: departmentChoices
         }
 
     ];
         inquirer.prompt(addRoleQuestions)
         .then((answers) => {
-            console.log(answers);
+            db.query('INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)',
+            [answers.title, answers.salary, answers.departmentId],
+            (err, result) => {
+                if(err){
+                    console.error('Error putting in a new role');
+                }
+                else{
+                    console.log('A new role has been added');
+                }
+                init();
+            }
+            );
         })
         .catch(err => {
             console.error('Error with inquirer');
