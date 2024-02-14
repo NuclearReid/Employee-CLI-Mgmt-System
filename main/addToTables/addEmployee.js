@@ -18,11 +18,7 @@ async function addEmployee(db, init){
             name: 'last_name'
         }
     ];
-    await inquirer.prompt(newEmployeeName)
-    .then((newEmployeeName) => {
-        console.log(newEmployeeName);
-        return newEmployeeName;
-    })
+    const newEmployee = await inquirer.prompt(newEmployeeName)
     .catch(err => {
         console.error('Unable to get their first & last name');
     });
@@ -40,10 +36,12 @@ async function addEmployee(db, init){
             init();
             return;
         }
+
         const roleChoices = results.map(results => ({
             name: results.title,
-            value: results.id
+            value: results.title
         }));
+
         const employeeRole = [
             {
                 type: 'list',
@@ -51,16 +49,12 @@ async function addEmployee(db, init){
                 choices: roleChoices
             }
         ];
-        await inquirer.prompt(employeeRole)
-        .then((role) => {
-            // console.log(role);
-            return role;
-        })
+
+        const selectedRole = await inquirer.prompt(employeeRole)
         .catch(err => {
             console.error('Unable to get their role');
         })
-    }); 
-
+    
     // third inquerer prompt
 // get the names of all the managers and display them as a list
 // get what the manager selection and store it
@@ -68,13 +62,33 @@ async function addEmployee(db, init){
 // Use the manager's first_name to get their employee_id and set that to the new employee's 'manager_id'
 
 // console.log(`So far i've gathered their name ${newEmployeeName} and ${role}`);
-
-
-
-
+        db.query((`SELECT CONCAT(first_name, " ", last_name) 
+                AS manager_name 
+                FROM employees 
+                WHERE manager_id IS NOT NULL`), async (err, results) => {
+                    if(err){
+                        console.error(`Unable to get the list of managers`);
+                        init();
+                        return;
+                    }
+                    const managerNames = results.map(result => result.manager_name);                    
+                    const employeeManager = [
+                    {
+                        type:'list',
+                        message: 'who is the manager?',
+                        name: 'chosenManager',
+                        choices: managerNames
+                    }
+                ];
+                const selectedManager = await inquirer.prompt(employeeManager)
+                .catch(err => {
+                    console.error('Unable to select the manager');
+                }); 
+                console.log(`All the gathered data for the new employee name: ${newEmployee.first_name} ${newEmployee.last_name}, role ${selectedRole.theirRole}, and manager ${selectedManager.chosenManager}`);
+            });
+        });
 
 }
-
 
 module.exports = addEmployee;
 
