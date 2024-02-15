@@ -1,8 +1,7 @@
 const inquirer = require('inquirer');
+const addToTable = require('./sendEmployeeToTable');
 
 async function addEmployee(db, init){
-
-
     // first inquirer prompt
     // get their first/last name and return that value
 
@@ -22,8 +21,6 @@ async function addEmployee(db, init){
     .catch(err => {
         console.error('Unable to get their first & last name');
     });
-
-
     // second inquirer prompt
 
     // get the different roles that are in the table and display them as a list
@@ -65,7 +62,7 @@ async function addEmployee(db, init){
         db.query((`SELECT CONCAT(first_name, " ", last_name) 
                 AS manager_name 
                 FROM employees 
-                WHERE manager_id IS NOT NULL`), async (err, results) => {
+                WHERE manager_id IS NULL`), async (err, results) => {
                     if(err){
                         console.error(`Unable to get the list of managers`);
                         init();
@@ -85,12 +82,19 @@ async function addEmployee(db, init){
                     console.error('Unable to select the manager');
                 }); 
                 console.log(`All the gathered data for the new employee name: ${newEmployee.first_name} ${newEmployee.last_name}, role ${selectedRole.theirRole}, and manager ${selectedManager.chosenManager}`);
+                addToTable(db, init, newEmployee.first_name, newEmployee.last_name, selectedRole.theirRole, selectedManager.chosenManager);
+
             });
         });
-
 }
 
+
 module.exports = addEmployee;
+
+
+
+
+
 
 
 
