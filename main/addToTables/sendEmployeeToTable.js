@@ -4,7 +4,7 @@ const addToTable = (db, init, firstName, lastName, roleName, managerName) => {
     // Query to get the role_id based on the role name
     const getRoleIdQuery = `SELECT id FROM roles WHERE title = ?`;
 
-    // sends that query to SQL
+    // inserts the roleName into the query
     db.query(getRoleIdQuery, [roleName], (err, roleResults) => {
         if (err) {
             console.error('Error getting role id:', err);

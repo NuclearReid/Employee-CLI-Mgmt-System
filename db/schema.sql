@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS staffmgmt_db;
 CREATE DATABASE staffmgmt_db;
 
 USE staffmgmt_db;

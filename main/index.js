@@ -58,6 +58,10 @@ function init() {
                 addEmployee(db, init);
                 break;            
             case 'Quit':
+                db.end();
+                break;
+            default:
+                db.end();
                 break;
         }
     });
