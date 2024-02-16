@@ -1,6 +1,4 @@
-// const init = require('../index');
-
-
+// displays the role titles
 function viewRoles(db, init){
     const sql = 'SELECT title FROM roles';
     db.query(sql, (err, results) => {

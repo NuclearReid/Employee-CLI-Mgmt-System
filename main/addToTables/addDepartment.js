@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
 
+
+
 function addDepartment(db, init){
+    // lets the user type in the name of the new department
     const addDepartmentQuestion = [
         {
             type:'input',
@@ -11,6 +14,7 @@ function addDepartment(db, init){
 
     inquirer.prompt(addDepartmentQuestion)
     .then((answers) => {
+        // inserts that string into the department table under (name)
         db.query('INSERT INTO departments(name) VALUES (?)',
         [answers.newDepartment],
         (err, result) => {

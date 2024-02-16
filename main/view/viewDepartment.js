@@ -1,5 +1,5 @@
-// const init = require('../index');
 
+// Displays the name of each department
 function viewDepartment(db, init) {
     const sql = 'SELECT name FROM departments';
     db.query(sql, (err, results) => {
