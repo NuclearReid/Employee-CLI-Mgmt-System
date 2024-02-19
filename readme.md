@@ -6,6 +6,8 @@
   
 [A link to a demo video](https://share.icloud.com/photos/0a60FkhQIv2kUbQXszYZe5gyA)
 
+![A demo video](./readme-assets/demoVideo.gif)
+
   Using the command line, the user will be able to view the employees, roles, and departments of the organization. There are also options to update the info or add new information     into the database
   
   ## Table of Contents
