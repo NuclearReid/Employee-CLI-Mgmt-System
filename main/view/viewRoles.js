@@ -1,6 +1,10 @@
 // displays the role titles
 function viewRoles(db, init){
-    const sql = 'SELECT title FROM roles';
+    const sql = `
+    SELECT roles.id AS role_id, roles.title, roles.salary, departments.name AS department
+    FROM roles
+    JOIN departments ON roles.department_id = departments.id
+    `;
     db.query(sql, (err, results) => {
         if(err){
             console.error(err);
